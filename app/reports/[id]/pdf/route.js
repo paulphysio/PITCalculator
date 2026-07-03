@@ -11,19 +11,33 @@ export async function GET(request, { params }) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const { data: record } = await supabase
+    const { data: record, error } = await supabase
       .from("tax_calculations")
-      .select("*, profiles(full_name)")
+      .select("*")
       .eq("tax_id", id)
       .eq("user_id", user.id)
       .single();
+
+    if (error) {
+      console.error("Database error in PDF route:", JSON.stringify(error, null, 2));
+      return new Response("Database error", { status: 500 });
+    }
 
     if (!record) {
       console.error("Report not found for ID:", id, "User:", user.id);
       return new Response("Report not found", { status: 404 });
     }
 
-    const pdfBuffer = await buildPDFReport(record);
+    // Get profile separately
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    const recordWithProfile = { ...record, profiles: profile };
+
+    const pdfBuffer = await buildPDFReport(recordWithProfile);
 
     return new Response(pdfBuffer, {
       headers: {

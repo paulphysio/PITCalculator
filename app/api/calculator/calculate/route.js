@@ -21,11 +21,11 @@ export async function POST(request) {
       return Response.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const { grossIncome, pensionContribution, nhfContribution, lifeAssurancePremium } = parsed.data;
+    const { grossIncome, pensionContribution, nhfContribution } = parsed.data;
     const totalDeductions = calculateDeductions({
       pension: pensionContribution,
       nhf: nhfContribution,
-      lifeAssurance: lifeAssurancePremium,
+      lifeAssurance: 0,
     });
     const chargeableIncome = grossIncome - totalDeductions;
 
@@ -43,7 +43,7 @@ export async function POST(request) {
         gross_income: grossIncome,
         pension_contribution: pensionContribution,
         nhf_contribution: nhfContribution,
-        life_assurance_premium: lifeAssurancePremium,
+        life_assurance_premium: 0,
         total_deductions: totalDeductions,
         chargeable_income: chargeableIncome,
         annual_tax: annualTax,

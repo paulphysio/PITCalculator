@@ -9,7 +9,6 @@ export default function CalculatorPage() {
     grossIncome: "",
     pensionContribution: "",
     nhfContribution: "",
-    lifeAssurancePremium: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -125,25 +124,6 @@ export default function CalculatorPage() {
                 )}
               </div>
 
-              <div>
-                <label htmlFor="lifeAssurancePremium" className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                  Life Assurance Premium (₦)
-                </label>
-                <input
-                  id="lifeAssurancePremium"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={formData.lifeAssurancePremium}
-                  onChange={(e) => setFormData({ ...formData, lifeAssurancePremium: e.target.value })}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm sm:text-base"
-                  placeholder="e.g., 26000"
-                />
-                {errors.lifeAssurancePremium && (
-                  <p className="text-red-600 text-xs sm:text-sm mt-1">{errors.lifeAssurancePremium}</p>
-                )}
-              </div>
-
               <button
                 type="submit"
                 disabled={loading}
@@ -169,10 +149,6 @@ export default function CalculatorPage() {
                 <li className="flex items-start">
                   <span className="text-green-600 mr-2">✓</span>
                   <span className="text-gray-700">National Housing Fund (NHF) contributions</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-green-600 mr-2">✓</span>
-                  <span className="text-gray-700">Life assurance premiums</span>
                 </li>
               </ul>
             </div>
